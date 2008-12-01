@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mtjMetadata jad="Mobile Tic-Tac-Toe.jad" version="0.9.0.200810141347">
+   <device group="Java(TM) Platform Micro Edition SDK 3.0 EA" name="DefaultCldcPhone2"/>
+   <signing signProject="false"/>
+</mtjMetadata>
