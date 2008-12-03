@@ -9,7 +9,7 @@ import javax.microedition.lcdui.game.GameCanvas;
 // speed up or slow down the rate of scrolling.
 
 public class StarField extends GameCanvas implements Runnable {
-
+	//test
 	private static final int SLEEP_INCREMENT = 10;
 	private static final int SLEEP_INITIAL = 150;
 	private static final int SLEEP_MAX = 300;
