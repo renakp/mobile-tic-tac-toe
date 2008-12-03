@@ -52,7 +52,12 @@ public class MainMIDlet extends MIDlet {
 					destroyApp(false);
 					notifyDestroyed();
 				} else
-					if (c == endCommand) display.setCurrent(welcomeScreen);
+					if (c == endCommand)
+						{
+							createGameScreen();
+							display.setCurrent(welcomeScreen);
+							
+						}
 			}
 		});
 	}
