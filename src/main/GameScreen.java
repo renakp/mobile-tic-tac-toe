@@ -14,6 +14,8 @@ public class GameScreen extends GameCanvas implements Runnable {
 
 	private int size; // length of the whole board
 	private int segment; // length of a segment, not including border lines
+	private int canvasWidth;
+	private int canvasHeight;
 
 	private static final int BORDER = 6;
 
@@ -31,32 +33,48 @@ public class GameScreen extends GameCanvas implements Runnable {
 
 	// draw board and start game loop
 	protected void showNotify() {
-		int w = getWidth();
-		int h = getHeight();
-		size = (w <= h ? w : h);
+		canvasWidth = getWidth();
+		canvasHeight = getHeight();
+		size = (canvasWidth <= canvasHeight ? canvasWidth : canvasHeight);
 		segment = (size - 2) / 3; // size - 2 line widths (1 each)
 		size = (segment * 3) + 2; // fixing size after truncation
 
-		graphics.setColor(display.getColor(Display.COLOR_BACKGROUND));
-		graphics.fillRect(0, 0, w, h);
-
+		clearDisplay();
 		drawBoard();
 		drawHighlight();
+		
 
-		for (int i = 0 ; i < 9 ; i++) {
-			drawKiss(i);
-			drawHug(i);
-		}
+//		for (int i = 0 ; i < 9 ; i++) {
+//			drawKiss(i);
+//			drawHug(i);
+//		}
 
 		// start game loop
 		thread = new Thread(this);
 		thread.start();
 	}
 
+/**
+ * clears the screen	
+ */
+	private void clearDisplay() {
+		graphics.setColor(display.getColor(Display.COLOR_BACKGROUND));
+		graphics.fillRect(0, 0, canvasWidth, canvasHeight);
+		
+	}
+
 	// game loop
 	public void run() {
 		while (thread == Thread.currentThread()) {
+			clearDisplay();
+			drawBoard();
 			nextHighlited();
+
+			try {
+				Thread.currentThread();
+				Thread.sleep(100);
+			} catch (InterruptedException e) {}
+			
 		}
 	}
 
@@ -67,22 +85,24 @@ public class GameScreen extends GameCanvas implements Runnable {
 
 		int col = index % 3;
 		int row = index / 3;
-
+		int tmp;
+		
 		if ((state & DOWN_PRESSED) != 0) {
 			row = (row + 1) % 3;
 		} else
 			if ((state & UP_PRESSED) != 0) {
-				row = (row - 1) % 3;
+				tmp = row - 1;
+				row = (tmp < 0)? (tmp + 3) : tmp % 3;
 			} else
 				if ((state & RIGHT_PRESSED) != 0) {
 					col = (col + 1) % 3;
 				} else
 					if ((state & LEFT_PRESSED) != 0) {
-						col = (col - 1) % 3;
+						tmp = col - 1;
+						col = (tmp < 0)? (tmp + 3) : tmp % 3;
 					}
 
 		index = (row * 3) + col;
-		int i = index;
 		drawHighlight();
 	}
 
@@ -139,6 +159,7 @@ public class GameScreen extends GameCanvas implements Runnable {
 	}
 
 	private void drawHighlight() {
+		
 		int factor = index - ((index / 3) * 3);
 		int x = segment * factor + factor;
 		x += BORDER / 2;
@@ -154,5 +175,6 @@ public class GameScreen extends GameCanvas implements Runnable {
 		graphics.setStrokeStyle(Graphics.DOTTED);
 		graphics.drawRect(x, y, length, length);
 		graphics.setStrokeStyle(Graphics.SOLID);
+		flushGraphics();
 	}
 }
