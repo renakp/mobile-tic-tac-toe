@@ -2,6 +2,7 @@ package main;
 
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.GameCanvas;
 
 public class GameScreen extends GameCanvas implements Runnable {
@@ -49,12 +50,6 @@ public class GameScreen extends GameCanvas implements Runnable {
 		drawBoard();
 		drawHighlight(true);
 		
-
-//		for (int i = 0 ; i < 9 ; i++) {
-//			drawKiss(i);
-//			drawHug(i);
-//		}
-
 		// start game loop
 		thread = new Thread(this);
 		thread.start();
@@ -211,10 +206,11 @@ public class GameScreen extends GameCanvas implements Runnable {
 	}
 	
 	private void nextHighlited() {
+		getKeyStates();
 		int state = getKeyStates();
 		if (state == 0) return;
 		
-		drawHighlight(false); // remove the previous higliting
+		drawHighlight(false); // remove the previous highlighting
 		int col = index % 3;
 		int row = index / 3;
 		int tmp;
@@ -236,6 +232,7 @@ public class GameScreen extends GameCanvas implements Runnable {
 
 		index = (row * 3) + col;
 		drawHighlight(true);
+		//graphics.drawImage(new Image(), x, y, anchor)
 	}
 
 	private void drawBoard() {
