@@ -74,6 +74,14 @@ public class GameScreen extends GameCanvas implements Runnable {
 			if(victory != 0)
 			{
 				clearDisplay();
+				graphics.setColor(GREEN);
+				String winner;
+				if(victory == 1)
+					winner = "Kisses";
+				else
+					winner = "Hugs";
+				graphics.drawString(winner+" has won!", 0, getHeight()/2,
+						Graphics.TOP | Graphics.LEFT);
 				flushGraphics();
 				setTitle("Game Over");
 				//display.vibrate(800);
@@ -88,7 +96,7 @@ public class GameScreen extends GameCanvas implements Runnable {
 			
 		}
 	}
-
+	
 	//returns true if the chosen box is already located
 	private boolean isLegal()
 	{
@@ -97,7 +105,7 @@ public class GameScreen extends GameCanvas implements Runnable {
 		{	
 			errorOn = true;
 			graphics.setColor(GREEN);
-			graphics.drawString("sorry, you must choose an empty box.", 0, h,
+			graphics.drawString("Illegal move!", 0, h,
 					Graphics.TOP | Graphics.LEFT);
 			return false;
 		}
@@ -107,7 +115,7 @@ public class GameScreen extends GameCanvas implements Runnable {
 		{
 			graphics.setColor(display
 					.getColor(Display.COLOR_BACKGROUND));
-			graphics.drawString("sorry, you must choose an empty box.", 0, h,
+			graphics.drawString("Illegal move!", 0, h,
 					Graphics.TOP | Graphics.LEFT);
 		}
 		return true;
@@ -115,6 +123,7 @@ public class GameScreen extends GameCanvas implements Runnable {
 	
 	
 	private void playNextMove(){
+		getKeyStates();
 		int state = getKeyStates();
 		if (state != 0)
 		{
@@ -143,10 +152,10 @@ public class GameScreen extends GameCanvas implements Runnable {
 		col = index % 3;
 		row = index / 3;
 		if(verticalVictory() || horizontalVictory() || diagonalVictory())
-			if(player) // x won
-				victory = 1;
-			else 
+			if(player) // O won
 				victory = 2;
+			else  // X won
+				victory = 1;
 	}
 	
 	private boolean horizontalVictory()
