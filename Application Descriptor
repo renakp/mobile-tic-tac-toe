@@ -1,7 +1,8 @@
 MIDlet-Version: 1.0.0
 MIDlet-Vendor: E & Y
 MIDlet-Jar-URL: Mobile-Tic-Tac-Toe.jar
+MIDlet-2: Bluetooth Test,/bt_test.png,main.bluetooth.BluetoothTest
 MicroEdition-Configuration: CLDC-1.1
-MicroEdition-Profile: MIDP-2.0
 MIDlet-1: Mobile-Tic-Tac-Toe,/icon.png,main.MainMIDlet
-MIDlet-Name: Mobile-Tic-Tac-Toe
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Name: Mobile Tic-Tac-Toe
