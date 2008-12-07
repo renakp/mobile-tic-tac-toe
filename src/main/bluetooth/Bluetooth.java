@@ -5,11 +5,11 @@ import javax.bluetooth.DiscoveryAgent;
 import javax.bluetooth.DiscoveryListener;
 import javax.bluetooth.LocalDevice;
 import javax.bluetooth.RemoteDevice;
+import javax.microedition.io.Connection;
 
 public class Bluetooth {
 	private final LocalDevice localdevice;
 	private final DiscoveryAgent discoveryAgent;
-
 	private static Bluetooth instance_ = null;
 
 	private Bluetooth() throws BluetoothStateException {

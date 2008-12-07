@@ -7,7 +7,7 @@ public class BluetoothTest extends MIDlet {
 	// private static final int MAX_TEXT_SIZE = 128;
 	private final Display display = Display.getDisplay(this);
 
-	private WelcomeScreen welcomeScreen;
+	// private WelcomeScreen welcomeScreen;
 	private ConnectionScreen connectionScreen;
 
 	// private final Command exitCommand = new Command("Exit", Command.EXIT, 2);
@@ -19,32 +19,32 @@ public class BluetoothTest extends MIDlet {
 	// private final StringItem messageLabel = new StringItem("Status: ",
 	// "Disconnected.");
 
-	private void createWelcomeScreen() {
-		welcomeScreen = new WelcomeScreen("Welcome To Bluetooth Test",
-				"A test of bluetooth connectivity.\n"
-						+ "Bluetooth must be enabled before starting.", this);
-		// StringItem label = new StringItem(null,
-		// "A test of bluetooth connectivity.\n"
-		// + "Bluetooth must be enabled "
-		// + "and the remote device known before starting.");
-		//
-		// Form form = new Form("Bluetooth Test");
-		// form.append(label);
-		//
-		// form.addCommand(exitCommand);
-		// form.addCommand(startCommand);
-		//
-		// welcomeScreen = form;
-		// welcomeScreen.setCommandListener(new CommandListener() {
-		// public void commandAction(Command c, Displayable d) {
-		// if (c == exitCommand) {
-		// destroyApp(false);
-		// notifyDestroyed();
-		// } else
-		// if (c == startCommand) display.setCurrent(bluetoothScreen);
-		// }
-		// });
-	}
+	// private void createWelcomeScreen() {
+	// welcomeScreen = new WelcomeScreen("Welcome To Bluetooth Test",
+	// "A test of bluetooth connectivity.\n"
+	// + "Bluetooth must be enabled before starting.", this);
+	// // StringItem label = new StringItem(null,
+	// // "A test of bluetooth connectivity.\n"
+	// // + "Bluetooth must be enabled "
+	// // + "and the remote device known before starting.");
+	// //
+	// // Form form = new Form("Bluetooth Test");
+	// // form.append(label);
+	// //
+	// // form.addCommand(exitCommand);
+	// // form.addCommand(startCommand);
+	// //
+	// // welcomeScreen = form;
+	// // welcomeScreen.setCommandListener(new CommandListener() {
+	// // public void commandAction(Command c, Displayable d) {
+	// // if (c == exitCommand) {
+	// // destroyApp(false);
+	// // notifyDestroyed();
+	// // } else
+	// // if (c == startCommand) display.setCurrent(bluetoothScreen);
+	// // }
+	// // });
+	// }
 
 	private void createconnectionScreen() {
 		// form.addCommand(exitCommand);
@@ -110,10 +110,10 @@ public class BluetoothTest extends MIDlet {
 	// }
 
 	public BluetoothTest() {
-		createWelcomeScreen();
+		// createWelcomeScreen();
 		createconnectionScreen();
-		welcomeScreen.setNextScreen(connectionScreen);
-		connectionScreen.setPrevScreen(welcomeScreen);
+		// welcomeScreen.setNextScreen(connectionScreen);
+		// connectionScreen.setPrevScreen(welcomeScreen);
 	}
 
 	protected void destroyApp(boolean unconditional) {}
@@ -121,6 +121,6 @@ public class BluetoothTest extends MIDlet {
 	protected void pauseApp() {}
 
 	protected void startApp() {
-		display.setCurrent(welcomeScreen);
+		display.setCurrent(/* welcomeScreen */connectionScreen);
 	}
 }

@@ -21,48 +21,33 @@ public class ConnectionScreen extends List implements DiscoveryListener {
 	private final Display display;
 	private Bluetooth bluetooth;
 
-	private Displayable prevScreen;
-	private Displayable nextScreen;
-
-	private final Command backCommand = new Command("Back", Command.BACK, 1);
-	private final Command nextCommand = new Command("Next", Command.SCREEN, 1);
+	private final Command scanCommand = new Command("Scan", Command.SCREEN, 1);
 
 	private final Vector remoteDevices = new Vector();
-
-	public void setPrevScreen(Displayable prevScreen) {
-		this.prevScreen = prevScreen;
-		addCommand(backCommand);
-	}
-
-	public void setNextScreen(Displayable nextScreen) {
-		this.nextScreen = nextScreen;
-		addCommand(nextCommand);
-	}
 
 	public ConnectionScreen(final MIDlet midlet) {
 		super("Bluetooth Connection", Choice.IMPLICIT);
 		display = Display.getDisplay(midlet);
 
+		addCommand(scanCommand);
+
+		final ConnectionScreen cs = this;
+		setCommandListener(new CommandListener() {
+			public void commandAction(Command c, Displayable d) {
+				if (c == scanCommand) {
+					initBluetooth();
+					populateList();
+				}
+			}
+		});
+	}
+
+	private void initBluetooth() {
 		try {
 			bluetooth = Bluetooth.getInstance();
 		} catch (BluetoothStateException e) {
 			terminateWithError(e);
 		}
-
-		final ConnectionScreen cs = this;
-		setCommandListener(new CommandListener() {
-			public void commandAction(Command c, Displayable d) {
-				if (c == backCommand) {
-					bluetooth.cancelInquiry(cs);
-					display.setCurrent(prevScreen);
-				} else
-					if (c == nextCommand) {
-						display.setCurrent(nextScreen);
-					}
-			}
-		});
-
-		populateList();
 	}
 
 	private void terminateWithError(Exception e) {
@@ -73,8 +58,10 @@ public class ConnectionScreen extends List implements DiscoveryListener {
 
 		bluetooth.cancelInquiry(this);
 
-		display.setCurrent(new Alert("Bluetooth Failure", message, null,
-				AlertType.ERROR) {}, prevScreen);
+		Alert alert = new Alert("Bluetooth Failure", message, null,
+				AlertType.ERROR);
+		alert.setTimeout(Alert.FOREVER);
+		display.setCurrent(alert);
 
 		return;
 	}

@@ -1,8 +1,8 @@
-MIDlet-1: Mobile-Tic-Tac-Toe,/icon.png,main.MainMIDlet
+MIDlet-1: Hugz 'n Kissez,/icon.png,main.MainMIDlet
 MIDlet-2: Bluetooth Test,/bt_test.png,main.bluetooth.BluetoothTest
-MIDlet-Jar-Size: 17348
+MIDlet-Jar-Size: 16603
 MIDlet-Jar-URL: Mobile-Tic-Tac-Toe.jar
-MIDlet-Name: Mobile Tic-Tac-Toe
+MIDlet-Name: Hugz 'n Kissez
 MIDlet-Vendor: E & Y
 MIDlet-Version: 1.0.0
 MicroEdition-Configuration: CLDC-1.1

@@ -81,7 +81,7 @@ public class GameScreen extends GameCanvas implements Runnable {
 						Graphics.TOP | Graphics.LEFT);
 				flushGraphics();
 				setTitle("Game Over");
-				// display.vibrate(800);
+				display.vibrate(300);
 				hideNotify();
 
 			}
