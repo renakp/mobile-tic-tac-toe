@@ -14,12 +14,13 @@ public class GameScreen extends GameCanvas implements Runnable {
 	private int col = 0;
 	private int row = 0;
 	private boolean errorOn = false; // an error message is displayed
-	private int victory = 0;
+	private int victory = 0; // 1: x win, 2: O win, 3: tie.
 
 	private int size; // length of the whole board
 	private int segment; // length of a segment, not including border lines
 	private int canvasWidth;
 	private int canvasHeight;
+	private int numMoves; // count the number of moves that were played so far
 
 	private static final int BORDER = 6;
 	private static final int GREEN = 0x0000ff00;
@@ -76,7 +77,10 @@ public class GameScreen extends GameCanvas implements Runnable {
 				if (victory == 1)
 					winner = "Kisses";
 				else
-					winner = "Hugs";
+					if (victory == 2)
+						winner = "Hugs";
+					else
+						winner = "No one"; // in case of a tie
 				graphics.drawString(winner + " has won!", 0, getHeight() / 2,
 						Graphics.TOP | Graphics.LEFT);
 				flushGraphics();
@@ -89,8 +93,7 @@ public class GameScreen extends GameCanvas implements Runnable {
 			try {
 				Thread.currentThread();
 				Thread.sleep(100);
-			} catch (InterruptedException e) {
-			}
+			} catch (InterruptedException e) {}
 
 		}
 	}
@@ -120,8 +123,7 @@ public class GameScreen extends GameCanvas implements Runnable {
 		int state = getKeyStates();
 		if (state != 0) {
 			if ((state & FIRE_PRESSED) != 0) {
-				if (!isLegal())
-					return; // the place is already located
+				if (!isLegal()) return; // the place is already located
 
 				// 1 for a kiss, 2 for a hug
 				if (player) {
@@ -131,6 +133,7 @@ public class GameScreen extends GameCanvas implements Runnable {
 					board[index] = 2;
 					player = true;
 				}
+				numMoves++;
 				checkVictory();
 			}
 		}
@@ -146,12 +149,14 @@ public class GameScreen extends GameCanvas implements Runnable {
 			else
 				// X won
 				victory = 1;
+		if (numMoves == 9) // no more moves available - its a tie
+			victory = 3;
 	}
 
 	private boolean horizontalVictory() {
 		int sum = 1;
 		int tmpCol = col;
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0 ; i < 3 ; i++) {
 			tmpCol = (tmpCol + 1) % 3;
 			sum *= board[(row * 3) + tmpCol];
 		}
@@ -166,7 +171,7 @@ public class GameScreen extends GameCanvas implements Runnable {
 	private boolean verticalVictory() {
 		int sum = 1;
 		int tmpRow = row;
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0 ; i < 3 ; i++) {
 			tmpRow = (tmpRow + 1) % 3;
 			sum *= board[(tmpRow * 3) + col];
 		}
@@ -185,14 +190,12 @@ public class GameScreen extends GameCanvas implements Runnable {
 			sum *= board[0];
 			sum *= board[4];
 			sum *= board[8];
-			if (sum == 1 || sum == 8)
-				return true;
+			if (sum == 1 || sum == 8) return true;
 			sum = 1;
 			sum *= board[2];
 			sum *= board[4];
 			sum *= board[6];
-			if (sum == 1 || sum == 8)
-				return true;
+			if (sum == 1 || sum == 8) return true;
 		}
 		return false;
 	}
@@ -200,7 +203,8 @@ public class GameScreen extends GameCanvas implements Runnable {
 	private void nextHighlited() {
 		getKeyStates();
 		int state = getKeyStates();
-		if (state == 0)
+		if (state == 0) // TODO - we should wait for the next change, and not
+			// return from call;
 			return;
 
 		drawHighlight(false); // remove the previous highlighting
@@ -210,15 +214,18 @@ public class GameScreen extends GameCanvas implements Runnable {
 
 		if ((state & DOWN_PRESSED) != 0) {
 			row = (row + 1) % 3;
-		} else if ((state & UP_PRESSED) != 0) {
-			tmp = row - 1;
-			row = (tmp < 0) ? (tmp + 3) : tmp % 3;
-		} else if ((state & RIGHT_PRESSED) != 0) {
-			col = (col + 1) % 3;
-		} else if ((state & LEFT_PRESSED) != 0) {
-			tmp = col - 1;
-			col = (tmp < 0) ? (tmp + 3) : tmp % 3;
-		}
+		} else
+			if ((state & UP_PRESSED) != 0) {
+				tmp = row - 1;
+				row = (tmp < 0) ? (tmp + 3) : tmp % 3;
+			} else
+				if ((state & RIGHT_PRESSED) != 0) {
+					col = (col + 1) % 3;
+				} else
+					if ((state & LEFT_PRESSED) != 0) {
+						tmp = col - 1;
+						col = (tmp < 0) ? (tmp + 3) : tmp % 3;
+					}
 
 		index = (row * 3) + col;
 		drawHighlight(true);
@@ -236,11 +243,11 @@ public class GameScreen extends GameCanvas implements Runnable {
 		drawVerticalLine((segment * 2) + 1);
 		drawHorizontalLine(segment);
 		drawHorizontalLine((segment * 2) + 1);
-		for (int i = 0; i < board.length; i++) {
+		for (int i = 0 ; i < board.length ; i++) {
 			if (board[i] == 1)
 				drawKiss(i);
-			else if (board[i] == 2)
-				drawHug(i);
+			else
+				if (board[i] == 2) drawHug(i);
 		}
 		flushGraphics();
 	}
