@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="main/bluetooth/" kind="src" path="src"/>
+	<classpathentry kind="src" path="res"/>
+	<classpathentry kind="con" path="org.elipse.mtj.JavaMEContainer/Java(TM) Platform Micro Edition SDK 3.0 EA/DefaultCldcPhone2"/>
+	<classpathentry exported="true" kind="lib" path="lib/marge-core-0.5.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

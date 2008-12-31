@@ -1,0 +1,8 @@
+MIDlet-Version: 1.0.0
+MIDlet-Vendor: E & Y
+MIDlet-Jar-URL: Mobile-Tic-Tac-Toe.jar
+MicroEdition-Configuration: CLDC-1.1
+MIDlet-2: Bluetooth,/bt_test.png,net.java.dev.marge.chat.MargeMIDlet
+MIDlet-1: Hugz 'n Kissez,/icon.png,main.MainMIDlet
+MicroEdition-Profile: MIDP-2.0
+MIDlet-Name: Hugz 'n Kissez
